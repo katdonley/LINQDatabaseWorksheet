@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace DatabaseFirstLINQ.Models
 {
     public partial class Product

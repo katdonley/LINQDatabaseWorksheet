@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+
+#nullable disable
 
 namespace DatabaseFirstLINQ.Models
 {
@@ -20,6 +21,7 @@ namespace DatabaseFirstLINQ.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +34,8 @@ namespace DatabaseFirstLINQ.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.Description)
@@ -90,19 +94,23 @@ namespace DatabaseFirstLINQ.Models
                 entity.Property(e => e.RegistrationDate)
                     .HasColumnType("date")
                     .HasDefaultValueSql("(getdate())");
+            });
 
-                entity.HasMany(d => d.Roles)
-                    .WithMany(p => p.Users)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "UserRole",
-                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__3C69FB99"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__UserI__3B75D760"),
-                        j =>
-                        {
-                            j.HasKey("UserId", "RoleId");
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
 
-                            j.ToTable("UserRoles");
-                        });
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserRoles__RoleI__3C69FB99");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserRoles__UserI__3B75D760");
             });
 
             OnModelCreatingPartial(modelBuilder);

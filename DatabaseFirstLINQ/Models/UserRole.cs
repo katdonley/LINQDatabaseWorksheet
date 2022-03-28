@@ -5,13 +5,12 @@ using System.Collections.Generic;
 
 namespace DatabaseFirstLINQ.Models
 {
-    public partial class ShoppingCart
+    public partial class UserRole
     {
         public int UserId { get; set; }
-        public int ProductId { get; set; }
-        public int? Quantity { get; set; }
+        public int RoleId { get; set; }
 
-        public virtual Product Product { get; set; }
+        public virtual Role Role { get; set; }
         public virtual User User { get; set; }
     }
 }

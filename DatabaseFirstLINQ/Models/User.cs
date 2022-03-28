@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace DatabaseFirstLINQ.Models
 {
     public partial class User
@@ -8,7 +10,7 @@ namespace DatabaseFirstLINQ.Models
         public User()
         {
             ShoppingCarts = new HashSet<ShoppingCart>();
-            Roles = new HashSet<Role>();
+            UserRoles = new HashSet<UserRole>();
         }
 
         public int Id { get; set; }
@@ -17,7 +19,6 @@ namespace DatabaseFirstLINQ.Models
         public DateTime? RegistrationDate { get; set; }
 
         public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
-
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }
