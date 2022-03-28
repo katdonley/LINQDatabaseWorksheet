@@ -87,11 +87,11 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that gets all of the users who registered BEFORE 2016
             // Then print each user's email and registration date to the console.
-            DateTime searchDate = DateTime.Parse("2016");
+            DateTime searchDate = DateTime.Parse("1/1/2016");
             var userDate = _context.Users.Where(user => user.RegistrationDate < searchDate);
             foreach (User user in userDate)
             {
-                Console.WriteLine(user.Email, user.RegistrationDate);
+                Console.WriteLine(user.Email + ' ' + user.RegistrationDate);
             }
 
         }
@@ -100,6 +100,13 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018
             // Then print each user's email and registration date to the console.
+            DateTime startDate = DateTime.Parse("1/1/2016");
+            DateTime endDate = DateTime.Parse("1/1/2018");
+            var userDate = _context.Users.Where(user => startDate < user.RegistrationDate && user.RegistrationDate < endDate );
+            foreach (User user in userDate)
+            {
+                Console.WriteLine(user.Email + ' ' + user.RegistrationDate);
+            }
 
         }
 
