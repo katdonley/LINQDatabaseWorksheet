@@ -22,8 +22,8 @@ namespace DatabaseFirstLINQ
             //ProblemFive();
             //ProblemSix();
             //ProblemSeven();
-            ProblemEight();
-            //ProblemNine();
+            //ProblemEight();
+            ProblemNine();
             //ProblemTen();
             //ProblemEleven();
             //ProblemTwelve();
@@ -135,13 +135,20 @@ namespace DatabaseFirstLINQ
                 
 
         }
-
+        //sum of each item in cart -> determine length of array in cart to select the number of items, then add each item price
+        //add each product in cart and their quantity
+        //figure out how to incorporate length in there somewhere
         private void ProblemNine()
         {
             // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "oda@gmail.com" and returns the sum of all of the products prices.
             // HINT: End of query will be: .Select(sc => sc.Product.Price).Sum();
             // Then print the total of the shopping cart to the console.
-
+           
+            var customerCart = _context.ShoppingCarts.Include(sc => sc.Product).Where(uc => uc.User.Email == "oda@gmail.com").Select(sc => sc.Product.Price).Sum();
+            
+            {
+                Console.WriteLine($"SubTotal: {customerCart}");
+            }
         }
 
         private void ProblemTen()
