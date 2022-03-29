@@ -24,13 +24,13 @@ namespace DatabaseFirstLINQ
             //ProblemSeven();
             //ProblemEight();
             //ProblemNine();
-            ProblemTen();
+            //ProblemTen();
             //ProblemEleven();
             //ProblemTwelve();
             //ProblemThirteen();
             //ProblemFourteen();
             //ProblemFifteen();
-            //ProblemSixteen();
+            ProblemSixteen();
             //ProblemSeventeen();
             //ProblemEighteen();
             //ProblemNineteen();
@@ -182,7 +182,14 @@ namespace DatabaseFirstLINQ
         private void ProblemTwelve()
         {
             // Create a new Product object and add that product to the Products table using LINQ.
-
+            Product product = new Product()
+            {
+                Name = "HIETIRA Squishy Stress Balls for Kids and Adults- 6 pack",
+                Description = "(6 PCS STRESS RELIEF BALLS) - 6 different styles of colorful stress balls (one ball with sparkled LED LIGHTS, the neon light will flash on impact and one luminescent ceiling sticky ball). Attractive and fun for kids as well as adults. ",
+                Price = 17
+            };
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
         private void ProblemThirteen()
@@ -201,7 +208,18 @@ namespace DatabaseFirstLINQ
 
         private void ProblemFourteen()
         {
-            // Add the product you create to the user we created in the ShoppingCart junction table using LINQ.
+            // Add the product you create to the user we created in the ShoppingCart junction table using LINQ.          
+            //var userId = _context.Users.Where(u => u.Email == "david@gmail.com").Select(u => u.Id).SingleOrDefault();
+            //var shoppingCart = _context.ShoppingCarts.Where(sc => userId.Contains(sc.UserId));
+            ShoppingCart newShoppingCart = new ShoppingCart()
+            {
+                 UserId = 6,
+                 ProductId = 8,
+                 Quantity = 1
+
+            };
+            _context.ShoppingCarts.Add(newShoppingCart);
+            _context.SaveChanges();
 
         }
 
@@ -219,6 +237,10 @@ namespace DatabaseFirstLINQ
         private void ProblemSixteen()
         {
             // Update the price of the product you created to something different using LINQ.
+            var product = _context.Products.Where(u => u.Price == 17).SingleOrDefault();
+            product.Price = 18;
+            _context.Products.Update(product);
+            _context.SaveChanges();
 
         }
 
